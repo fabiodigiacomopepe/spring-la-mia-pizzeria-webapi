@@ -1,0 +1,64 @@
+body {
+    background-image: url("https://img.freepik.com/premium-photo/dark-wooden-rustic-background-wooden-table_152391-60.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1 {
+    color: black;
+    text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff, 1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.foto_pizza {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.descrizione_pizza {
+    width: 50%;
+}
+
+table .table {
+    --bs-table-bg: #ffffffe0;
+}
+
+.pulsante_pizza {
+    color: black;
+}
+
+.pulsante_pizza:hover {
+    color: #0d6efd;
+    cursor: pointer;
+}
+
+.create {
+    color: white;
+}
+
+.table > :not(caption) > * > * {
+    padding: .5rem 1.5rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+i {
+    width: 25px;
+    color: white;
+    font-size: 13px;
+    background-color: #0d6efd;
+    padding: 4px 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#pulsante_elimina {
+    background-color: white;
+    border: none;
+    padding: 0;
+}

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaft.org">
+<head th:insert="fragments/resources :: headResources('Ingredient List')"></head>
+<body>
+<nav th:replace="fragments/navbar :: topNavbar('ingredients')"></nav>
+<div class="container">
+    <div th:if="${message !=null}" class="alert alert-success alert-dismissible fade show">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${messageFailed !=null}" class="alert alert-danger alert-dismissible fade show">
+        <span th:text="${messageFailed}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <h1>Lista Ingredienti</h1>
+    <div>
+        <form
+                id="ingredient-form"
+                th:action="@{/ingredients}"
+                method="POST"
+                th:object="${ingredientObj}"
+        >
+            <h3 style="position: relative; top: 20px; color: white;">Inserisci nome ingrediente</h3>
+            <div class="d-flex align-items-center" style="margin-bottom: 30px;">
+                <div th:insert="fragments/components :: formField('text', '', 'name')"></div>
+                <button class="btn btn-primary" type="submit" style="position: relative; top: 12px;">+</button>
+            </div>
+        </form>
+    </div>
+
+    <div th:if="${ingredientList.empty}" class="alert alert-info" style="margin-top: 30px;">La lista degli ingredienti è
+        vuota
+    </div>
+
+    <table class="table" th:if="${not ingredientList.empty}" style="width: 50%;">
+        <thead>
+        <th>Nome ingrediente</th>
+        <th></th>
+        </thead>
+        <tbody>
+        <tr th:each="ingredient : ${ingredientList}">
+            <td th:text="${ingredient.name}"></td>
+            <td>
+                <form method="POST" th:action="@{/ingredients/delete/{id}(id=${ingredient.id})}"
+                      onsubmit="return confirm('Sei sicuro?')">
+                    <button type="submit" id="pulsante_elimina" class="pulsante_pizza">
+                        <i class="fa-solid fa-trash"></i>
+                        Elimina
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script th:replace="fragments/resources :: jsResources"></script>
+</body>
+</html>

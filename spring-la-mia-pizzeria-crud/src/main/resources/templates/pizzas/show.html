@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaft.org" xmlns:sec="http://www.thymeleaf.org">
+<head th:insert="fragments/resources :: headResources('Pizza Show')"></head>
+<body>
+<div class="container" th:object="${pizza}" style="background-color: white; padding: 20px; margin: 30px auto;">
+    <h1 th:text="*{name}"></h1>
+    <hr>
+    <div class="mt-2" style="margin-bottom: 10px;">
+        <a th:href="@{/pizzas}" class="btn btn-primary">Torna alla lista</a>
+    </div>
+    <dl class="d-flex align-items-center justify-content-between">
+        <div style="width: 70%; font-size: 25px;">
+            <dt>Descrizione</dt>
+            <dd th:text="*{description}"></dd>
+            <dt>Prezzo</dt>
+            <dd th:text="|€*{price}|"></dd>
+        </div>
+        <div style="width: 30%">
+            <dd><img style="width: 300px; height: 300px; object-fit: cover;" th:src="*{photo}" alt="pizza"></dd>
+        </div>
+    </dl>
+
+    <div class="col-4" style="margin-bottom: 40px;">
+        <h3>Ingredienti</h3>
+        <ul th:if="*{ingredients.size() > 0}">
+            <li th:each="ingredient : *{ingredients}" th:text="${ingredient.name}"></li>
+        </ul>
+        <div th:unless="*{ingredients.size() > 0}" class="alert alert-info">La lista di ingredienti è vuota</div>
+    </div>
+
+    <div style="margin-bottom: 30px;">
+        <h2>Offerte</h2>
+        <a th:href="@{/offers/create(pizzaId=*{id})}" sec:authorize="hasAuthority('ADMIN')">
+            <i class="fa-solid fa-circle-plus"
+               style="font-size: 15px; width: fit-content; background-color: white; color: #0d6efd;">
+                Crea nuova offerta speciale</i>
+        </a>
+        <div th:if="*{offers.size() == 0}" class="alert alert-info" style="margin-top: 30px;">La lista di offerte è
+            vuota
+        </div>
+        <div th:unless="*{offers.size() == 0}">
+            <table class="table" style="margin-top: 20px;">
+                <thead>
+                <tr>
+                    <th>Titolo</th>
+                    <th>Data inizio</th>
+                    <th>Data fine</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="offer : *{offers}" th:object="${offer}">
+                    <td th:text="*{title}"></td>
+                    <td th:text="*{startDate}"></td>
+                    <td th:text="*{endDate}"></td>
+                    <td>
+                        <a class="btn btn-primary"
+                           th:href="@{/offers/edit/{id}(id=${offer.id})}" title="edit">
+                            <i class="fa-solid fa-pen-to-square"></i>Modifica
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script th:replace="fragments/resources :: jsResources"></script>
+</body>
+</html>

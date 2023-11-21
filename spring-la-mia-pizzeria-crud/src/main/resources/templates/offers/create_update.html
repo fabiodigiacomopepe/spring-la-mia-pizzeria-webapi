@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="isEdit=${offer.id != null}">
+<head th:insert="fragments/resources :: headResources(${isEdit ? 'Offer Edit' : 'Offer Create'})"></head>
+<body>
+<div class="container create">
+    <h1 th:text="${isEdit ? 'Modifica Offerta' : 'Crea Offerta'}"></h1>
+    <hr>
+    <form
+            th:with="actionUrl=${isEdit ? '/offers/edit/' + offer.id : '/offers/create'}"
+            id="offer-create"
+            method="POST"
+            th:action="@{${actionUrl}}"
+            th:object="${offer}"
+            class="row"
+    >
+        <input type="hidden" th:field="*{pizza}">
+
+        <div class="col-12" th:insert="fragments/components :: formField('text', 'Titolo', 'title')"></div>
+
+        <div class="col-6" th:insert="fragments/components :: formField('date', 'Data inizio', 'startDate')"></div>
+
+        <div class="col-6" th:insert="fragments/components :: formField('date', 'Data fine', 'endDate')"></div>
+
+        <div class="mt-4 mb-5">
+            <button class="btn btn-primary" type="submit">Salva</button>
+            <a th:href="@{/pizzas/show/{pizzaId}(pizzaId=*{pizza.id})}" class="btn btn-primary">Torna indietro</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaft.org" xmlns:sec="http://www.thymeleaf.org">
+<head th:insert="fragments/resources :: headResources('Pizza List')"></head>
+<body>
+<nav th:replace="fragments/navbar :: topNavbar('pizzas')"></nav>
+<div class="container">
+    <div th:if="${message !=null}" class="alert alert-success alert-dismissible fade show">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <h1>Lista Pizze</h1>
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="my-3">
+            <a th:href="@{/pizzas/create}" class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')">Crea nuova
+                pizza</a>
+        </div>
+        <form th:action="@{/pizzas}" method="GET">
+            <div class="input-group">
+                <input
+                        type="text"
+                        placeholder="Cerca per titolo"
+                        class="form-control" name="search"
+                        th:value="${param.search}"
+                >
+                <button class="btn btn-primary" type="submit">Cerca</button>
+            </div>
+        </form>
+    </div>
+
+    <div th:if="${pizzaList.empty}" class="alert alert-info" style="margin-top: 30px;">
+        <h2>Nessuna pizza presente in lista.</h2>
+    </div>
+
+    <table class="table" th:if="${not pizzaList.empty}" style="margin-top: 20px;">
+        <thead>
+        <th></th>
+        <th>Prezzo</th>
+        <th>Nome</th>
+        <th>Ingredienti</th>
+        <th>Foto</th>
+        </thead>
+        <tbody>
+        <tr th:each="pizza : ${pizzaList}" style="vertical-align: middle;">
+            <td>
+                <div>
+                    <a th:href="@{/pizzas/show/{id}(id=${pizza.id})}" class="pulsante_pizza">
+                        <i class="fa-solid fa-pizza-slice"></i>
+                        Visualizza
+                    </a>
+                </div>
+                <div>
+                    <a th:href="@{/pizzas/edit/{id}(id=${pizza.id})}" class="pulsante_pizza"
+                       sec:authorize="hasAuthority('ADMIN')">
+                        <i class="fa-solid fa-pen"></i>
+                        Modifica
+                    </a>
+                </div>
+                <div>
+                    <form method="POST" th:action="@{/pizzas/delete/{id}(id=${pizza.id})}"
+                          onsubmit="return confirm('Sei sicuro?')" sec:authorize="hasAuthority('ADMIN')">
+                        <button type="submit" id="pulsante_elimina" class="pulsante_pizza">
+                            <i class="fa-solid fa-trash"></i>
+                            Elimina
+                        </button>
+                    </form>
+                </div>
+            </td>
+            <td th:text="|€${pizza.price}|"></td>
+            <td>
+                <span th:text="${pizza.name}"></span>
+                <img th:if=" ${pizza.offers.size() !=0}"
+                     style="max-width: 35px; margin-left: 5px; transform: rotate(20deg);"
+                     src="https://dematteohome.it/img/cms/bollino-special-promo.png"
+                     alt="bollino">
+            </td>
+            <td class="descrizione_pizza" th:text="${pizza.description}"></td>
+            <td>
+                <img class="foto_pizza" th:src="${pizza.photo}" alt="pizza">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script th:replace="fragments/resources :: jsResources"></script>
+</body>
+</html>

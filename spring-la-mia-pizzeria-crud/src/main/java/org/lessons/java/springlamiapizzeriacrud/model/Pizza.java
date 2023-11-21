@@ -1,5 +1,6 @@
 package org.lessons.java.springlamiapizzeriacrud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -32,6 +33,7 @@ public class Pizza {
     @DecimalMin(value = "0.01", message = "Il prezzo non può essere uguale/inferiore zero")
     private BigDecimal price;
 
+    @JsonIgnore   // Per non cadere in RICORSIONE (LOOP) !!
     @OneToMany(mappedBy = "pizza", orphanRemoval = true)
     private List<Offer> offers = new ArrayList<>();
 

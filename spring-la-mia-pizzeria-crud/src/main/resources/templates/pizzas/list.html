@@ -41,7 +41,7 @@
         </thead>
         <tbody>
         <tr th:each="pizza : ${pizzaList}" style="vertical-align: middle;">
-            <td>
+            <td style="font-size: 14px;">
                 <div>
                     <a th:href="@{/pizzas/show/{id}(id=${pizza.id})}" class="pulsante_pizza">
                         <i class="fa-solid fa-pizza-slice"></i>

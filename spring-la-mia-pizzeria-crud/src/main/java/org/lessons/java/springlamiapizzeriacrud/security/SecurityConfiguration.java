@@ -24,6 +24,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
                 .and().logout();
+        http.csrf().disable();          // CSRF per sicurezza API
         return http.build();
     }
 

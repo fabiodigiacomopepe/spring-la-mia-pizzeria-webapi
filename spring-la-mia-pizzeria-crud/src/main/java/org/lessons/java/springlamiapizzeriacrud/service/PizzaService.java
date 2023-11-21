@@ -40,6 +40,8 @@ public class PizzaService {
     }
 
     public Pizza createPizza(Pizza pizza) throws RuntimeException {
+        // Setto ID pizza a null per evitare UPDATE involontario (!!)
+        pizza.setId(null);
         return pizzaRepository.save(pizza);
     }
 

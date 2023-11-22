@@ -2,7 +2,9 @@ package org.lessons.java.springlamiapizzeriacrud.api;
 
 import jakarta.validation.Valid;
 import org.lessons.java.springlamiapizzeriacrud.exceptions.PizzaNotFoundException;
+import org.lessons.java.springlamiapizzeriacrud.model.Ingredient;
 import org.lessons.java.springlamiapizzeriacrud.model.Pizza;
+import org.lessons.java.springlamiapizzeriacrud.service.IngredientService;
 import org.lessons.java.springlamiapizzeriacrud.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,9 @@ public class PizzaRestController {
     @Autowired
     private PizzaService pizzaService;
 
+    @Autowired
+    private IngredientService ingredientService;
+
     // Rotta "/api/v1/pizzas" (GET)
     @GetMapping
     public List<Pizza> index(@RequestParam Optional<String> search) {
@@ -26,6 +31,13 @@ public class PizzaRestController {
         // Visto che search è opzionale, se c'è lo uso
         // altrimenti passo stringa vuota
         return pizzaService.getPizzaList(Optional.of(search.orElse("")));
+    }
+
+    // Rotta "/api/v1/ingredients" (GET)
+    @GetMapping("/ingredients")
+    public List<Ingredient> index() {
+        // Ritorno lista di ingredienti
+        return ingredientService.getAll();
     }
 
     // Rotta "/api/v1/pizzas/id" <---(dinamico) (GET)
@@ -77,3 +89,4 @@ public class PizzaRestController {
         }
     }
 }
+
